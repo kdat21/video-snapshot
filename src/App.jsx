@@ -41,19 +41,32 @@ export default function App() {
     }
   }, []);
 
-  const onSnapshotClick = () => {
+  // const onSnapshotClick = () => {
+  //   if (context && videoRef.current) {
+  //     context.fillRect(0, 0, dimensions.w, dimensions.h);
+  //     context.drawImage(videoRef.current, 0, 0, dimensions.w, dimensions.h);
+  //   }
+  // }
+
+  // const onDownloadClick = () => {
+  //   const url = canvasRef.current.toDataURL("image/png");
+  //   const link = document.createElement('a');
+  //   link.download = `${video.substring(video.lastIndexOf('/'))}-snapshot.png`;
+  //   link.href = url;
+  //   link.click();
+  // }
+
+  const onDownloadDirectClick = () => {
     if (context && videoRef.current) {
       context.fillRect(0, 0, dimensions.w, dimensions.h);
       context.drawImage(videoRef.current, 0, 0, dimensions.w, dimensions.h);
-    }
-  }
 
-  const onDownloadClick = () => {
-    const url = canvasRef.current.toDataURL("image/png");
-    const link = document.createElement('a');
-    link.download = `${video.substring(video.lastIndexOf('/'))}-snapshot.png`;
-    link.href = url;
-    link.click();
+      const url = canvasRef.current.toDataURL("image/png");
+      const link = document.createElement('a');
+      link.download = `${video.substring(video.lastIndexOf('/'))}-snapshot.png`;
+      link.href = url;
+      link.click();
+    }
   }
 
   return (
@@ -75,14 +88,15 @@ export default function App() {
         <Input addonBefore="Current video URL" onChange={(e) => setVideoUrl(e.target.value)} />
         <Col span={24} style={{ marginTop: '5px' }}>
           <Button type='primary' onClick={() => setVideo(videoUrl)}>Update URL</Button>
-          <Button type='primary' onClick={onSnapshotClick}>Take screenshot</Button>
-          <Button type='primary' onClick={onDownloadClick}>Download</Button>
+          {/* <Button type='primary' onClick={onSnapshotClick}>Take screenshot</Button>
+          <Button type='primary' onClick={onDownloadClick}>Download</Button> */}
+          <Button type='primary' onClick={onDownloadDirectClick}>Download snapshot</Button>
         </Col>
       </Row>
       <Row className='media-col'>
         Snapshot Preview <CameraOutlined style={{ marginLeft: '10px', display: 'flex', alignItems: 'center' }} />
         <Col span={24} className='media-col'>
-          <canvas crossOrigin="anonymous" ref={canvasRef} />
+          <canvas crossOrigin="anonymous" ref={canvasRef} hidden />
         </Col>
       </Row>
     </Space>
